@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href={% static 'CCS/Session.css' %} />
+  <title>Login</title>
+</head>
+
+<body style="background-image: url({% static 'IMG/session-cafeteria.jpg' %});">
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Iniciar Sesión</button>
+  </form>
+
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var email = document.getElementById("loginEmail").value;
+      var password = document.getElementById("loginPassword").value;
+      var storedUser = JSON.parse(localStorage.getItem("user"));
+      if (storedUser && storedUser.email === email && storedUser.password === password) {
+        alert("Inicio de sesión exitoso.");
+        // Redirigir al usuario a index.html
+        window.location.href = "{% url 'index' %}";
+      } else {
+        alert("Correo electrónico o contraseña incorrectos. Inténtalo de nuevo.");
+      }
+    });
+  </script>
+
+</body>
+
+</html>
